@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy me a Chocolate — By Arman</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--text:#fafafa;--muted:#a3a3a3}
+html,body{min-height:100%;font-family:'Inter',sans-serif;background:#080808;color:var(--text)}
+body{overflow-x:hidden;overflow-y:auto}
+#bg{position:fixed;inset:0;z-index:0;background:#080808}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background: radial-gradient(900px 600px at 50% 55%, transparent 45%, rgba(0,0,0,0.5) 100%)}
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:10;width:min(1080px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:999px;background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));backdrop-filter: blur(22px) saturate(0%);-webkit-backdrop-filter: blur(22px) saturate(0%);border:1px solid rgba(255,255,255,0.13);box-shadow: 0 10px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.14)}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-title{font-weight:700;font-size:15px;letter-spacing:-0.02em}
+.nav-title span{font-weight:400;color:var(--muted);font-size:11px}
+.nav-links{display:flex;gap:8px}
+.pill{font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;background: rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);color:#d4d4d4}
+.wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:96px 20px 96px}
+.card{width:min(520px,100%);border-radius:32px;padding:28px;background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));backdrop-filter: blur(26px) saturate(0%);-webkit-backdrop-filter: blur(26px) saturate(0%);border:1px solid rgba(255,255,255,0.12);box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.13);position:relative;overflow:hidden;text-align:center}
+.card::before{content:'';position:absolute;inset:1px;border-radius:32px;background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent 22%);pointer-events:none;opacity:0.55}
+.title{font-family:'Inter',sans-serif;font-weight:800;font-size: clamp(20px, 4vw, 26px);letter-spacing:-0.03em;color:#ffffff;margin-top:4px}
+.sub{font-size:13.5px;color:#a3a3a3;margin-top:8px;line-height:1.5}
+.btn-row{display:flex;gap:10px;margin-top:22px;justify-content:center;flex-wrap:wrap}
+.choco-btn{flex:1;min-width:92px;max-width:140px;padding:14px 16px;border-radius:16px;background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));backdrop-filter: blur(14px) saturate(0%);-webkit-backdrop-filter: blur(14px) saturate(0%);border:1px solid rgba(255,255,255,0.13);color:#fafafa;font-weight:700;font-size:16px;cursor:pointer;box-shadow: 0 8px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14);transition: transform 0.15s, background 0.2s, border-color 0.2s}
+.choco-btn:hover{background: rgba(255,255,255,0.12);border-color: rgba(255,255,255,0.18);transform: translateY(-1px)}
+.choco-btn:active{transform: scale(0.97)}
+.email{margin-top:18px;font-size:13px;color:#737373}
+.email b{color:#d4d4d4;font-weight:600;letter-spacing:0.02em}
+.back{margin-top:18px;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background: rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--muted);font-size:12.5px;cursor:pointer}
+.back:hover{background: rgba(255,255,255,0.08);color:#fafafa}
+/* popup */
+.overlay{position:fixed;inset:0;z-index:20;display:none;place-items:center;background: rgba(0,0,0,0.55);backdrop-filter: blur(8px)}
+.overlay.show{display:grid}
+.popup{width:min(420px,92vw);border-radius:22px;padding:22px;background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));backdrop-filter: blur(22px) saturate(0%);border:1px solid rgba(255,255,255,0.14);box-shadow: 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.14);text-align:center;animation: pop 0.22s cubic-bezier(0.16,1,0.3,1)}
+@keyframes pop{from{transform:scale(0.96);opacity:0}to{transform:scale(1);opacity:1}}
+.popup h3{font-size:16px;font-weight:700;color:#fafafa}
+.popup p{font-size:13.5px;color:#d4d4d4;margin-top:8px;line-height:1.5}
+.popup button{margin-top:16px;padding:10px 18px;border-radius:999px;border:none;background:#fafafa;color:#0a0a0a;font-weight:700;cursor:pointer}
+.footer-hand{margin-top:18px;font-family:'Caveat',cursive;font-weight:700;font-size:18px;color:#fafafa;letter-spacing:0.03em;transform: rotate(-0.6deg);filter: drop-shadow(0 1px 6px rgba(0,0,0,0.5))}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="vignette"></div>
+<nav class="nav">
+  <div class="nav-left">
+    <div style="width:42px;height:42px;border-radius:13px;background: rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);display:grid;place-items:center;box-shadow: inset 0 1px 0 rgba(255,255,255,0.16)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="3.2" fill="white"/><circle cx="12" cy="8.2" r="1.1" fill="#0a0a0a"/><ellipse cx="12" cy="14.6" rx="3.8" ry="4.2" fill="white"/><g stroke="white" stroke-width="1.35" stroke-linecap="round" fill="none" opacity="0.92"><path d="M8.4 9.2 L4.2 6.8 L2 7.6"/><path d="M8 11 L3.2 11 L1.5 12.6"/><path d="M8.6 13.2 L3.8 15.8 L2.2 17.4"/><path d="M15.6 9.2 L19.8 6.8 L22 7.6"/><path d="M16 11 L20.8 11 L22.5 12.6"/><path d="M15.4 13.2 L20.2 15.8 L21.8 17.4"/></g><circle cx="10.6" cy="7.6" r="0.55" fill="#0a0a0a"/><circle cx="13.4" cy="7.6" r="0.55" fill="#0a0a0a"/></svg>
+    </div>
+    <div class="nav-title">YT Video and Music Downloader <span>-By Arman</span></div>
+  </div>
+  <div class="nav-links"><span class="pill">🍫 Chocolate</span></div>
+</nav>
+<div class="wrap">
+  <div class="card">
+    <div class="title">Buy me a Chocolate?</div>
+    <div class="sub">Support the project — pick a tiny thank you</div>
+    <div class="btn-row">
+      <button class="choco-btn" data-amt="1$">1$</button>
+      <button class="choco-btn" data-amt="5$">5$</button>
+      <button class="choco-btn" data-amt="67$">67$</button>
+    </div>
+    <div class="email">Email: <b>mr.alienxoxo@gmail.com</b></div>
+    <button class="back" onclick="history.back()">← Back</button>
+    <div class="footer-hand">Thank Aishi.</div>
+  </div>
+</div>
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <h3>🍫 Not yet</h3>
+    <p>This option is currently unusable.<br>(i will upload my QR later)</p>
+    <button id="closePop">OK</button>
+  </div>
+</div>
+<script>
+(function(){
+const c=document.getElementById('bg'),x=c.getContext('2d');
+let W,H,dpr,groundY;
+function resize(){dpr=Math.min(devicePixelRatio||1,1.6);W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';groundY=H*0.74}
+resize();addEventListener('resize',resize);
+const animals=[];const types=['horse','deer','rabbit','horse','deer','rabbit'];
+for(let i=0;i<6;i++){const t=types[i];const dir=i%3===0?-1:1;const s=(t==='rabbit'?2.0:t==='horse'?1.6:1.75)+Math.random()*0.4;const sc=(t==='rabbit'?0.78:t==='horse'?1.12:0.96)*(0.92+Math.random()*0.12);animals.push({type:t,x:Math.random()*W,yOff:(Math.random()*70-10)*dpr,speed:s*dpr*0.5,scale:sc*dpr,dir,phase:Math.random()*6.28})}
+const scratches=[];for(let i=0;i<16;i++)scratches.push({x:Math.random()*W,y:Math.random()*H*0.62,len:(50+Math.random()*70)*dpr,speed:(1.8+Math.random()*2.2)*dpr,alpha:0.22+Math.random()*0.16,w:(1.2+Math.random()*0.9)*dpr});
+let last=performance.now();
+function draw(tNow){
+  const dt=Math.min((tNow-last)/16.67,1.5);last=tNow;
+  x.fillStyle='#0a0a0a';x.fillRect(0,0,W,H);
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0f0f0f');g.addColorStop(0.5,'#0e0e0e');g.addColorStop(1,'#090909');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle='#101010';x.fillRect(0,groundY,W,H-groundY);
+  x.strokeStyle='rgba(255,255,255,0.07)';x.lineWidth=1*dpr;x.beginPath();x.moveTo(0,groundY);x.lineTo(W,groundY);x.stroke();
+  x.save();
+  scratches.forEach(s=>{s.x+=s.speed*dt;if(s.x>W+80*dpr){s.x=-80*dpr;s.y=Math.random()*H*0.62;s.alpha=0.22+Math.random()*0.16}x.globalAlpha=s.alpha;x.strokeStyle='#ffffff';x.shadowColor='rgba(255,255,255,0.9)';x.shadowBlur=7*dpr;x.lineWidth=s.w;x.beginPath();x.moveTo(s.x,s.y);x.lineTo(s.x+s.len,s.y+s.len*0.05);x.stroke();x.shadowBlur=0;x.globalAlpha=s.alpha*0.55;x.lineWidth=s.w*0.6;x.beginPath();x.moveTo(s.x+10*dpr,s.y+5*dpr);x.lineTo(s.x+10*dpr+s.len*0.45,s.y+5*dpr+s.len*0.03);x.stroke()});
+  x.restore();x.globalAlpha=1;x.shadowBlur=0;
+  animals.sort((a,b)=>a.yOff-b.yOff);
+  animals.forEach(a=>{a.x+=a.speed*a.dir*dt;if(a.dir===1&&a.x>W+90*dpr)a.x=-90*dpr;if(a.dir===-1&&a.x<-90*dpr)a.x=W+90*dpr;a.phase+=0.18*dt*(a.type==='rabbit'?1.15:1);const y=groundY+a.yOff*0.10;x.save();x.translate(a.x,y);x.scale(a.dir,1);x.scale(a.scale,a.scale);if(a.type==='horse')drawHorse(x,a.phase);else if(a.type==='deer')drawDeer(x,a.phase);else drawRabbit(x,a.phase);x.restore()});
+  requestAnimationFrame(draw);
+}
+function drawHorse(c,ph){c.fillStyle='rgba(0,0,0,0.28)';c.beginPath();c.ellipse(0,8,18,3.8,0,0,6.28);c.fill();c.strokeStyle='#e5e5e5';c.lineWidth=1.9;c.lineCap='round';const leg=(bx,sw)=>{const a=Math.sin(ph*1.7+sw)*0.85;const x1=bx+Math.sin(a)*4.2,y1=1.5+Math.cos(a)*2,x2=bx+Math.sin(a)*6.8,y2=8;c.beginPath();c.moveTo(bx,0);c.lineTo(x1,y1);c.lineTo(x2,y2);c.stroke()};leg(-10,0);leg(-3.5,3.14);leg(4.5,0.4);leg(11,3.54);c.fillStyle='#fafafa';c.strokeStyle='rgba(0,0,0,0.13)';c.lineWidth=1;c.beginPath();c.ellipse(1.5,-6,17,8.5,0,0,6.28);c.fill();c.stroke();c.beginPath();c.moveTo(13,-6);c.lineTo(20,-12);c.lineTo(16,-16);c.lineTo(9,-6);c.closePath();c.fill();c.stroke();c.beginPath();c.ellipse(21,-14,5.2,3.8,-0.2,0,6.28);c.fill();c.stroke()}
+function drawDeer(c,ph){c.fillStyle='rgba(0,0,0,0.26)';c.beginPath();c.ellipse(0,8,15,3.4,0,0,6.28);c.fill();c.strokeStyle='#e5e5e5';c.lineWidth=1.7;c.lineCap='round';const leg=(bx,sw)=>{const a=Math.sin(ph*1.8+sw)*0.88;const x1=bx+Math.sin(a)*4,y1=1.5+Math.cos(a)*2,x2=bx+Math.sin(a)*6.2,y2=8;c.beginPath();c.moveTo(bx,0);c.lineTo(x1,y1);c.lineTo(x2,y2);c.stroke()};leg(-8,0);leg(-2.5,3.14);leg(3.5,0.4);leg(10,3.54);c.fillStyle='#fafafa';c.strokeStyle='rgba(0,0,0,0.12)';c.lineWidth=1;c.beginPath();c.ellipse(1,-5,14,7.5,0,0,6.28);c.fill();c.stroke();c.beginPath();c.moveTo(11,-5);c.lineTo(18,-11);c.lineTo(14,-15);c.lineTo(7,-5);c.closePath();c.fill();c.stroke();c.beginPath();c.ellipse(19,-13,4.6,3.4,-0.2,0,6.28);c.fill();c.stroke();c.strokeStyle='#fafafa';c.lineWidth=1.1;c.beginPath();c.moveTo(18,-16);c.lineTo(16,-21);c.moveTo(18,-16);c.lineTo(22,-20);c.stroke()}
+function drawRabbit(c,ph){const hop=Math.abs(Math.sin(ph*1.5))*4;c.fillStyle='rgba(0,0,0,0.20)';c.beginPath();c.ellipse(0,8,11,2.8,0,0,6.28);c.fill();c.strokeStyle='#e5e5e5';c.lineWidth=1.6;c.lineCap='round';const back=Math.sin(ph*1.5)>0?1.2:-0.6;c.beginPath();c.moveTo(-4.5,-1);c.lineTo(-6+back,7);c.stroke();c.beginPath();c.moveTo(-1,-1);c.lineTo(-1.8+back,7);c.stroke();c.beginPath();c.moveTo(4,-2);c.lineTo(5,3);c.stroke();c.fillStyle='#fafafa';c.strokeStyle='rgba(0,0,0,0.11)';c.lineWidth=1;c.beginPath();c.ellipse(0,-4-hop*0.3,9,6.5,0,0,6.28);c.fill();c.stroke();c.beginPath();c.ellipse(8,-7.5-hop*0.45,5,4.4,0,0,6.28);c.fill();c.stroke();c.beginPath();c.ellipse(7,-13-hop*0.32,1.7,5.2,-0.12,0,6.28);c.fill();c.stroke();c.beginPath();c.ellipse(10,-12-hop*0.32,1.5,4.4,0.08,0,6.28);c.fill();c.stroke()}
+requestAnimationFrame(draw);
+// popup logic
+const overlay=document.getElementById('overlay');
+document.querySelectorAll('.choco-btn').forEach(b=>b.addEventListener('click',()=> overlay.classList.add('show')));
+document.getElementById('closePop').addEventListener('click',()=> overlay.classList.remove('show'));
+overlay.addEventListener('click',e=>{ if(e.target===overlay) overlay.classList.remove('show')});
+})();
+</script>
+</body>
+</html>
